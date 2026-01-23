@@ -10,20 +10,20 @@ let blob3 = {
   // Visual properties
   r: 26, // Base radius
   points: 48, // Number of points used to draw the blob
-  wobble: 7, // Edge deformation amount
-  wobbleFreq: 0.9,
+  wobble: 9, // Edge deformation amount
+  wobbleFreq: 2,
 
   // Time values for breathing animation
   t: 0,
-  tSpeed: 0.01,
+  tSpeed: 0.04,
 
   // Physics: velocity
   vx: 0, // Horizontal velocity
   vy: 0, // Vertical velocity
 
   // Movement tuning
-  accel: 0.55, // Horizontal acceleration
-  maxRun: 4.0, // Maximum horizontal speed
+  accel: 0.8, // Horizontal acceleration
+  maxRun: 6.5, // Maximum horizontal speed
   gravity: 0.65, // Downward force
   jumpV: -11.0, // Initial jump impulse
 
@@ -63,10 +63,10 @@ function setup() {
 }
 
 function draw() {
-  background(240);
+  background(200, 225, 255);
 
   // --- Draw all platforms ---
-  fill(200);
+  fill(150, 220, 150);
   for (const p of platforms) {
     rect(p.x, p.y, p.w, p.h);
   }
@@ -136,7 +136,8 @@ function draw() {
   blob3.x = constrain(blob3.x, blob3.r, width - blob3.r);
 
   // --- Draw the animated blob ---
-  blob3.t += blob3.tSpeed;
+  const speed = abs(blob3.vx) + abs(blob3.vy);
+  blob3.t += blob3.tSpeed + speed * 0.01;
   drawBlobCircle(blob3);
 
   // --- HUD ---
@@ -154,7 +155,7 @@ function overlap(a, b) {
 
 // Draws the blob using Perlin noise for a soft, breathing effect
 function drawBlobCircle(b) {
-  fill(20, 120, 255);
+  fill(255, 255, 0);
   beginShape();
 
   for (let i = 0; i < b.points; i++) {
